@@ -7,25 +7,14 @@ from helper_functions.std import ft_std
 import csv
 import sys
 
-# Function to shorten values to 10 characters
+COLUMN_WIDTH = 12
+
 def shorten_value(value):
-    value = f"{value:.5f}"  # Format to 5 decimal places
+    value = f"{value:.5f}"
     return value[:10] if len(value) > 10 else value
 
-# Function to shorten headers to 10 characters
 def shorten_header(header):
     return header[:10] if len(header) > 10 else header
-
-# Calculate the maximum column width dynamically
-COLUMN_WIDTH = 12  # Fixed width for consistency
-
-# array = [2, 2, 0 , 1, 3 , 4 , -5]
-# print(ft_min(array))
-# print(ft_max(array))
-# print(ft_avg(array))
-# print(ft_std(array))
-# print(ft_percentile(array, 25))
-# print(ft_percentile(array, 75))
 
 if len(sys.argv) != 2:
     print("You need a single file path")
