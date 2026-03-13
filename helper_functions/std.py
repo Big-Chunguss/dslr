@@ -12,6 +12,6 @@ def ft_std(array):
     res = 0
     len = 0
     for x in array:
-        res += abs(x - avg)
+        res += (x - avg) ** 2
         len += 1
-    return res / len
+    return (res / len) ** 0.5
