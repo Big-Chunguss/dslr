@@ -33,7 +33,7 @@ with open(sys.argv[1]) as file:
         if row["Hogwarts House"] not in hogwarts_house:
             hogwarts_house.append(row["Hogwarts House"])
     # print(hogwarts_house)
-    # print(subjects)
+    print(subjects)
 
     file.seek(0)
     csv_reader = csv.DictReader(file, delimiter=",")
@@ -68,12 +68,3 @@ for houses in hogwarts_house:
     plt.ylabel("Number of Students")
     plt.show()
     print(f"Subject with lowest standard deviation for {houses}: {min_subject} ({min_std})")
-
-
-
-# x = np.random.normal(170, 10, 250)
-
-# plt.hist(x)
-# plt.show()
-# plt.savefig('histogram.png')
-# print("Histogram saved to histogram.png") 
