@@ -14,12 +14,6 @@ if len(sys.argv) != 2:
     exit(1)
 with open(sys.argv[1]) as file:
     csv_reader = csv.DictReader(file, delimiter=",")
-
-if len(sys.argv) != 2:
-    print("You need a single file path")
-    exit(1)
-with open(sys.argv[1]) as file:
-    csv_reader = csv.DictReader(file, delimiter=",")
     columns = csv_reader.fieldnames
 
 # 1st function: get all house names and subjects
@@ -38,8 +32,8 @@ with open(sys.argv[1]) as file:
                 count = 0
         if row["Hogwarts House"] not in hogwarts_house:
             hogwarts_house.append(row["Hogwarts House"])
-    print(hogwarts_house)
-    print(subjects)
+    # print(hogwarts_house)
+    # print(subjects)
 
     file.seek(0)
     csv_reader = csv.DictReader(file, delimiter=",")
@@ -52,69 +46,34 @@ with open(sys.argv[1]) as file:
     # print(db_houses["Hufflepuff"])
 
 # 3rd function plot them for each subject
-std_dev = []
-
-for classes in subjects:
-    print(f"==={classes}===")
-    tmp = {house: [] for house in hogwarts_house}
-    for houses in hogwarts_house:
-        for rows in db_houses[houses]:
-            try:
-                tmp[houses].append(float(rows[classes]))
-            except ValueError:
-                continue
-        print(houses)
-        print(ft_std(tmp[houses]))
 
 for houses in hogwarts_house:
     print(f"==={houses}===")
     tmp = {classes: [] for classes in subjects}
-    min = []
+    min_std = float('inf')
+    min_subject = None  
     for classes in subjects:
         for rows in db_houses[houses]:
             try:
                 tmp[classes].append(float(rows[classes]))
             except ValueError:
                 continue
-        print(classes)
-        min.append(ft_std(tmp[classes]))
-        print(ft_std(tmp[classes]))
-    print(ft_min(min))
-
-# plt.hist(hufflepuff)
-
-#     float_columns = []
-#     for col in columns:
-#         if col.lower() == "index":
-#             continue
-#         try:
-#             all_floats = any(float(row[col]) if row[col] else False for row in csv_reader)
-#             if all_floats:
-#                 float_columns.append(col)
-#         except ValueError:
-#             continue
-
-#     file.seek(0)
-#     csv_reader = csv.DictReader(file, delimiter=",")
-
-#     column_values = {col: [] for col in float_columns}
-#     mean = 0
-#     for row in csv_reader:
-#         mean += 1
-#         for col in float_columns:
-#             value = row.get(col)
-#             if value:
-#                 try:
-#                     column_values[col].append(float(value))
-#                 except ValueError:
-#                     print(f"Skipping invalid value in column {col}: {value}")
+        std_val = ft_std(tmp[classes])
+        if std_val < min_std:
+            min_std = std_val
+            min_subject = classes
+    plt.hist(tmp[min_subject])
+    plt.title(f"Score Distribution for '{min_subject}' by {houses}")
+    plt.xlabel("Score")
+    plt.ylabel("Number of Students")
+    plt.show()
+    print(f"Subject with lowest standard deviation for {houses}: {min_subject} ({min_std})")
 
 
 
+# x = np.random.normal(170, 10, 250)
 
-x = np.random.normal(170, 10, 250)
-
-plt.hist(x)
-plt.show()
-plt.savefig('histogram.png')
-print("Histogram saved to histogram.png") 
+# plt.hist(x)
+# plt.show()
+# plt.savefig('histogram.png')
+# print("Histogram saved to histogram.png") 
