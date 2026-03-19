@@ -1,22 +1,19 @@
-from helper_functions.min import ft_min
-from helper_functions.max import ft_max
-from helper_functions.avg import ft_avg
-from helper_functions.percentile import ft_percentile
-from helper_functions.std import ft_std
-
+import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
-import numpy as np
-import sys
-import csv
 
-if len(sys.argv) != 2:
-    print("You need a single file path")
-    exit(1)
-with open(sys.argv[1]) as file:
-    csv_reader = csv.DictReader(file, delimiter=",")
-    columns = csv_reader.fieldnames
+df = pd.read_csv("data/dataset_train.csv", usecols=['Arithmancy', 'Astronomy', 'Herbology', 'Defense Against the Dark Arts', 'Divination', 'Muggle Studies', 'Ancient Runes', 'History of Magic', 'Transfiguration', 'Potions', 'Care of Magical Creatures', 'Charms', 'Flying'])
 
-    print(columns)
-    for rows in csv_reader:
-        print(rows)
-        break
+# print(df)
+# Pearson correlation (linear)
+corr = df.corr()
+
+sns.pairplot(df)
+plt.show()
+
+
+df2 = pd.read_csv("data/dataset_train.csv", usecols=['Astronomy', 'Defense Against the Dark Arts'])
+corr = df2.corr()
+
+sns.pairplot(df2)
+plt.show()
