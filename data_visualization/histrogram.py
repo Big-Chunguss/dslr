@@ -50,12 +50,24 @@ with open(sys.argv[1]) as file:
 
 # 3rd function plot them for each subject
 
+fig, axs = plt.subplots(3, 5)
+
+for ax in axs.flat:
+    ax.set(xlabel='Score', ylabel='Number of Students')
+
+colors = ['royalblue', 'forestgreen', 'firebrick', 'goldenrod']
+colors_n = 0
 for houses in hogwarts_house:
     print(f"==={houses}===")
     tmp = {classes: [] for classes in subjects}
+    count_x = 0
+    count_y = 0
     min_std = float('inf')
     min_subject = None  
     for classes in subjects:
+        if count_y == 5:
+            count_y = 0
+            count_x += 1
         for rows in db_houses[houses]:
             try:
                 tmp[classes].append(float(rows[classes]))
@@ -65,9 +77,12 @@ for houses in hogwarts_house:
         if std_val < min_std:
             min_std = std_val
             min_subject = classes
-    plt.hist(tmp[min_subject])
-    plt.title(f"Score Distribution for '{min_subject}' by {houses}")
-    plt.xlabel("Score")
-    plt.ylabel("Number of Students")
-    plt.show()
+        axs[count_x, count_y].hist(tmp[classes], histtype='step', bins=50, color=colors[colors_n], label=houses)
+        axs[count_x, count_y].set_title(classes)
+        axs[count_x, count_y].legend(prop={'size': 10})
+        count_y+=1
+    colors_n +=1
+    # plt.hist(tmp[min_subject])
+    # plt.title(f"Score Distribution for '{min_subject}' by {houses}")
     print(f"Subject with lowest standard deviation for {houses}: {min_subject} ({min_std})")
+plt.show()

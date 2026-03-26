@@ -102,12 +102,14 @@ for house in possible_houses:
     z = np.dot(features, weights[house]) + biases[house]
     pred[house] = sigmoid(z)
 
+winner = []
 for i in range(len(features)):
     scores = {house: pred[house][i] for house in possible_houses}
-    winner = max(scores, key=scores.get)
-    print(f"Étudiant {i} → {winner} (score: {scores[winner]:.3f})")
+    winner.append(max(scores, key=scores.get))
+    print(f"Étudiant {i} → {winner[i]} (score: {scores[winner[i]]:.3f})")
 
 
-
+# print(winner)
+# print(house_col)
 # verification
-# print(accuracy_score(Y, res))
+print(accuracy_score(winner, house_col))
