@@ -6,6 +6,7 @@ from helper_functions.std import ft_std
 
 import csv
 import sys
+import pandas as pd
 
 COLUMN_WIDTH = 12
 
@@ -77,3 +78,7 @@ print("-" * (COLUMN_WIDTH * (len(shortened_headers) + 4)))
 # Print each row of statistics with the label
 for row in statistics_rows:
     print(" | ".join(f"{value:<{COLUMN_WIDTH}}" for value in row))
+
+with open("data/dataset_train.csv", "r") as f :
+    df = pd.read_csv(f)
+    print(df.describe())

@@ -1,3 +1,5 @@
+import math
+
 def ft_percentile(array, value):
     if not isinstance(array, (tuple, list)):
         raise TypeError("Input must be a tulpe or list")
@@ -9,5 +11,17 @@ def ft_percentile(array, value):
     if not isinstance(value, int):
         raise ValueError("input needs to be between 1 and 100")
     sorted_array = sorted(array)
-    pos = int((len(array) - 1) * (value / 100))
-    return sorted_array[pos]
+    len_array = len(array)
+    raw_pos = (len_array * value / 100)
+    print(f"Raw_pos: {raw_pos}")
+    if raw_pos != int(raw_pos):
+        return sorted_array[int(raw_pos)]
+    else:
+        return (sorted_array[int(raw_pos)] + sorted_array[int(raw_pos- 1)]) / 2
+
+test = [1,2,3,4,5]
+# print(test[6])
+# print(len(test))
+print(f"25: {ft_percentile(test, 25)}")
+print(f"50: {ft_percentile(test, 50)}")
+print(f"75: {ft_percentile(test, 75)}")
